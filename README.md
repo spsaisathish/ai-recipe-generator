@@ -1,12 +1,34 @@
 # AI Recipe Generator
 
-## Goal
-
-Build an enterprise-grade GenAI Recipe Generator using:
+Enterprise GenAI Recipe Generator built using:
 
 - Next.js
-- Node.js
-- Claude API
+- NestJS
+- TypeScript
+- Claude AI
 - Prompt Engineering
-- Prompt Chaining
-- Structured JSON
+- PostgreSQL
+- Prisma
+
+## Architecture
+
+Frontend (Next.js)
+        ↓
+Backend (NestJS)
+        ↓
+AI Service
+        ↓
+Prompt Builder
+        ↓
+Claude API
+
+## Project Status
+
+🚧 Currently in Development
+
+Sprint 1
+- [x] Project Setup
+- [x] Health API
+- [ ] Recipe Module
+- [ ] AI Module
+- [ ] Claude Integration
