@@ -7,7 +7,7 @@ export class HealthController {
     constructor (private healthService: HealthService) { }
 
     @Get()
-      getHealthStatus() {
-        return this.healthService.getHealthStatus()
-      }
+    getHealthStatus() {
+      return this.healthService.getHealthStatus()
+    }
 }
