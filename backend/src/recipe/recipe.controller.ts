@@ -4,12 +4,10 @@ import { RecipeService } from './recipe.service';
 
 @Controller('recipe')
 export class RecipeController {
-    constructor (private recipeService: RecipeService) { }
+  constructor(private recipeService: RecipeService) {}
 
-    @Post('generate')
-    generateRecipe(
-        @Body() dto: GenerateRecipeDto
-    ) {
-        return this.recipeService.generateRecipe(dto);
-    }
+  @Post('generate')
+  generateRecipe(@Body() dto: GenerateRecipeDto) {
+    return this.recipeService.generateRecipe(dto);
+  }
 }

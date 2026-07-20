@@ -4,12 +4,11 @@ import { GenerateRecipeDto } from './dto/generate-recipe.dto';
 
 @Injectable()
 export class RecipeService {
-
-    generateRecipe(dto: GenerateRecipeDto): RecipeGenerateResponse {
-        return {
-            success: true,
-            message: 'Recipe request validated successfully',
-            data: dto,
-        };
-    }
+  generateRecipe(dto: GenerateRecipeDto): RecipeGenerateResponse {
+    return {
+      success: true,
+      message: 'Recipe request validated successfully',
+      data: dto,
+    };
+  }
 }
