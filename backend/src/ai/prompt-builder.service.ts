@@ -28,7 +28,7 @@ export class PromptBuilderService {
         (ingredient) =>
           `${ingredient.name} - ${ingredient.quantity} ${ingredient.unit}`,
       )
-      .join(', ');
+      .join('\n• ');
   }
 
   buildRecipePrompt(dto: GenerateRecipeDto): PromptRequest {

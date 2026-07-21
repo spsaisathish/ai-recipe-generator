@@ -1,1 +1,8 @@
-export const RECIPE_OUTPUT_INSTRUCTIONS = 'Return ONLY using JSON Format';
+export const RECIPE_OUTPUT_INSTRUCTIONS = `
+Return ONLY valid JSON.
+
+Do not include markdown.
+
+Do not wrap the response inside.
+
+Return no additional explanation.`;

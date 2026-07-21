@@ -2,9 +2,9 @@ export function replacePlaceholders(
   template: string,
   values: Record<string, string>,
 ): string {
-  const result = template.replace(
-    /{ingredients}|{dietType}|{servings}|{language}/g,
-    (matched) => values[matched],
-  );
+  const result = template.replace(/\{\{(.*?)\}\}/g, (match, key) => {
+    return values[key.trim()] || match;
+  });
+
   return result;
 }
