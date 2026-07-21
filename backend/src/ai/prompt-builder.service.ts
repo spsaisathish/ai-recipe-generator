@@ -7,7 +7,7 @@ import { RECIPE_TEMPLATE } from './prompts/templates/recipe.template';
 import { replacePlaceholders } from './utils/prompt.util';
 import { RECIPE_OUTPUT_INSTRUCTIONS } from './prompts/outputs/recipe.output';
 
-/* Example Request
+/* Example Input
 const dto = {
     ingredients: [
         {
@@ -26,6 +26,14 @@ const dto = {
     dietType: DietType.NON_VEGETARIAN,
     spiceLevel: SpiceLevel.MEDIUM
 };
+*/
+
+/* Example Output
+  {
+  "systemPrompt": "\nYou are an expert chef.\n\nGenerate healthy recipes.\n\nUse only ingredients supplied by the user.\n\nNever invent ingredients.\n\nAlways answer in the requested language.\n\nFollow the requested diet.\n\nReturn JSON only.\n",
+  "userPrompt": "\nIngredients:\nChicken - 500 grams\n• Rice - 300 grams\n\nDiet Type:\nNon-Vegetarian\n\nServings:\n4\n\nLanguage:\nENGLISH\n\nSpice Level:\nMedium\n",
+  "outputInstructions": "\nReturn ONLY valid JSON.\n\nDo not include markdown.\n\nDo not wrap the response inside.\n\nReturn no additional explanation."
+}
 */
 
 @Injectable()
@@ -56,7 +64,7 @@ export class PromptBuilderService {
 
     const userPrompt = replacePlaceholders(RECIPE_TEMPLATE, values);
 
-    return {     
+    return {
       systemPrompt: CHEF_SYSTEM_PROMPT,
       userPrompt,
       outputInstructions: RECIPE_OUTPUT_INSTRUCTIONS,
