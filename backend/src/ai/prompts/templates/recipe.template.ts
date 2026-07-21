@@ -1,21 +1,16 @@
 export const RECIPE_TEMPLATE = `
-Ingredients
-
+Ingredients:
 {{ingredients}}
 
-Diet Type
-
+Diet Type:
 {{dietType}}
 
-Servings
-
+Servings:
 {{servings}}
 
-Language
-
+Language:
 {{language}}
 
-Spice Level
-
+Spice Level:
 {{spiceLevel}}
 `;
