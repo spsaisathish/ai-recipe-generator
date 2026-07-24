@@ -14,5 +14,6 @@ import { ClaudeProvider } from './providers/claude.provider';
       useClass: ClaudeProvider,
     },
   ],
+  exports: [AiService],
 })
 export class AiModule {}

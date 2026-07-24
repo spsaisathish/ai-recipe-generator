@@ -17,6 +17,27 @@ export class ClaudeProvider implements AIProvider {
   }
 
   async send(prompt: PromptRequest): Promise<string> {
-    // Claude SDK call here
+    const response = await this.anthropic.messages.create({
+      model: this.configService.getOrThrow<string>('CLAUDE_MODEL'),
+
+      max_tokens: Number(this.configService.getOrThrow('CLAUDE_MAX_TOKENS')),
+
+      system: [prompt.systemPrompt, prompt.outputInstructions].join('\n\n'),
+
+      messages: [
+        {
+          role: 'user',
+          content: prompt.userPrompt,
+        },
+      ],
+    });
+
+    const firstContent = response.content[0];
+
+    if (firstContent?.type !== 'text') {
+      throw new Error('Claude returned an unexpected response.');
+    }
+
+    return firstContent.text;
   }
 }

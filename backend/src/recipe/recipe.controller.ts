@@ -1,13 +1,16 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { GenerateRecipeDto } from './dto/generate-recipe.dto';
 import { RecipeService } from './recipe.service';
+import { RecipeResponse } from './interfaces/recipe-response.interface';
 
-@Controller('recipe')
+@Controller('recipes')
 export class RecipeController {
-  constructor(private recipeService: RecipeService) {}
+  constructor(private readonly recipeService: RecipeService) {}
 
   @Post('generate')
-  generateRecipe(@Body() dto: GenerateRecipeDto) {
+  async generateRecipe(
+    @Body() dto: GenerateRecipeDto,
+  ): Promise<RecipeResponse> {
     return this.recipeService.generateRecipe(dto);
   }
 }

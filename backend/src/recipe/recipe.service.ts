@@ -1,14 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { RecipeGenerateResponse } from 'src/utils/interfaces';
 import { GenerateRecipeDto } from './dto/generate-recipe.dto';
+import { AiService } from 'src/ai/ai.service';
+import { RecipeResponse } from './interfaces/recipe-response.interface';
 
 @Injectable()
 export class RecipeService {
-  generateRecipe(dto: GenerateRecipeDto): RecipeGenerateResponse {
-    return {
-      success: true,
-      message: 'Recipe request validated successfully',
-      data: dto,
-    };
+  constructor(private readonly aiService: AiService) {}
+  async generateRecipe(dto: GenerateRecipeDto): Promise<RecipeResponse> {
+    return await this.aiService.generateRecipe(dto);
   }
 }
