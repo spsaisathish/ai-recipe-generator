@@ -4,6 +4,7 @@ import { AI_PROVIDER } from './constants/ai-provider.constants';
 import type { AIProvider } from './interfaces/ai-provider.interface';
 import { GenerateRecipeDto } from 'src/recipe/dto/generate-recipe.dto';
 import { RecipeResponse } from 'src/recipe/interfaces/recipe-response.interface';
+import { ResponseParserService } from './response-parser.service';
 @Injectable()
 export class AiService {
   constructor(
@@ -11,6 +12,7 @@ export class AiService {
 
     @Inject(AI_PROVIDER)
     private readonly provider: AIProvider,
+    private readonly responseParser: ResponseParserService,
   ) {}
 
   async generateRecipe(dto: GenerateRecipeDto): Promise<RecipeResponse> {
@@ -18,6 +20,6 @@ export class AiService {
 
     const recipeJson = await this.provider.send(prompt);
 
-    return JSON.parse(recipeJson) as RecipeResponse;
+    return this.responseParser.parse<RecipeResponse>(recipeJson);
   }
 }

@@ -7,6 +7,7 @@ import { AIProvider } from './interfaces/ai-provider.interface';
 import { GeminiProvider } from './providers/gemini.provider';
 import { AI_PROVIDER } from './constants/ai-provider.constants';
 import { AIProviderType } from 'src/common/enums/ai-provider-type.enum';
+import { ResponseParserService } from './response-parser.service';
 
 const aiProviderFactory = {
   provide: AI_PROVIDER,
@@ -36,9 +37,10 @@ const aiProviderFactory = {
   providers: [
     AiService,
     PromptBuilderService,
+    ResponseParserService,
     ClaudeProvider,
     GeminiProvider,
-    aiProviderFactory,
+    aiProviderFactory
   ],
   exports: [AiService],
 })
