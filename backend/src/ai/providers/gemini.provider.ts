@@ -6,24 +6,14 @@ import { GoogleGenAI } from '@google/genai';
 
 @Injectable()
 export class GeminiProvider implements AIProvider {
-  constructor(
-    private readonly configService: ConfigService,
-    private readonly client: GoogleGenAI,
-  ) {
+  private readonly client: GoogleGenAI;
+
+  constructor(private readonly configService: ConfigService) {
     const apiKey = this.configService.getOrThrow<string>('GEMINI_API_KEY');
+
     this.client = new GoogleGenAI({
       apiKey,
     });
-  }
-
-  buildPrompt(prompt: PromptRequest) {
-    return [
-      prompt.systemPrompt,
-
-      prompt.userPrompt,
-
-      prompt.outputInstructions,
-    ].join('\n\n');
   }
 
   async send(prompt: PromptRequest): Promise<string> {
@@ -33,9 +23,17 @@ export class GeminiProvider implements AIProvider {
     });
 
     if (!response.text) {
-      throw new Error('Gemini returned an empty response');
+      throw new Error('Gemini returned an empty response.');
     }
 
     return response.text;
+  }
+
+  private buildPrompt(prompt: PromptRequest): string {
+    return [
+      prompt.systemPrompt,
+      prompt.userPrompt,
+      prompt.outputInstructions,
+    ].join('\n\n');
   }
 }
