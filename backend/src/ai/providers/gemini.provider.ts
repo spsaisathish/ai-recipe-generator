@@ -3,6 +3,7 @@ import { AIProvider } from '../interfaces/ai-provider.interface';
 import { ConfigService } from '@nestjs/config';
 import { PromptRequest } from '../interfaces/prompt-request.interface';
 import { GoogleGenAI } from '@google/genai';
+import { AIProviderException } from '../exceptions/ai-provider.exception';
 
 @Injectable()
 export class GeminiProvider implements AIProvider {
@@ -17,16 +18,24 @@ export class GeminiProvider implements AIProvider {
   }
 
   async send(prompt: PromptRequest): Promise<string> {
-    const response = await this.client.models.generateContent({
-      model: this.configService.getOrThrow<string>('GEMINI_MODEL'),
-      contents: this.buildPrompt(prompt),
-    });
+    try {
+      const response = await this.client.models.generateContent({
+        model: this.configService.getOrThrow<string>('GEMINI_MODEL'),
+        contents: this.buildPrompt(prompt),
+      });
 
-    if (!response.text) {
-      throw new Error('Gemini returned an empty response.');
+      if (!response.text) {
+        throw new AIProviderException('Gemini returned an empty response.');
+      }
+
+      return response.text;
+    } catch (error: unknown) {
+      if (error instanceof AIProviderException) {
+        throw error;
+      }
+
+      throw new AIProviderException('Failed to communicate with Gemini', error);
     }
-
-    return response.text;
   }
 
   private buildPrompt(prompt: PromptRequest): string {
