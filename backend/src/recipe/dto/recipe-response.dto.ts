@@ -22,10 +22,10 @@ export class RecipeResponseDto {
   servings!: number;
 
   @IsString()
-  prepTime!: string;
+  preparationTime!: string;
 
   @IsString()
-  cookTime!: string;
+  cookingTime!: string;
 
   @IsEnum(SpiceLevel)
   spiceLevel!: SpiceLevel;

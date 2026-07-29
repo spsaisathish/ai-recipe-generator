@@ -1,7 +1,7 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { GenerateRecipeDto } from './dto/generate-recipe.dto';
 import { RecipeService } from './recipe.service';
-import { RecipeResponse } from './interfaces/recipe-response.interface';
+import { RecipeResponseDto } from './dto/recipe-response.dto';
 
 @Controller('recipes')
 export class RecipeController {
@@ -10,7 +10,7 @@ export class RecipeController {
   @Post('generate')
   async generateRecipe(
     @Body() dto: GenerateRecipeDto,
-  ): Promise<RecipeResponse> {
+  ): Promise<RecipeResponseDto> {
     return this.recipeService.generateRecipe(dto);
   }
 }
