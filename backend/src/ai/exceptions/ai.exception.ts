@@ -1,4 +1,6 @@
-export class AIException extends Error {
+export abstract class AIException extends Error {
+  abstract readonly statusCode: number;
+
   constructor(
     message: string,
     public readonly cause?: unknown,
