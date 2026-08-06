@@ -48,8 +48,6 @@ Rather than building a recipe application directly, the goal is to design a reus
 
 # 🏗️ Current System Architecture
 
-# 🏗️ Current System Architecture
-
 ```text
                 Next.js Frontend
                         │
@@ -246,17 +244,6 @@ Examples:
 * [x] DTO Validation Pipeline
 * [x] AI Exception Hierarchy
 * [x] Global Exception Filter
-
----
-
-## 🚀 Sprint 2 (In Progress)
-
-* Retry Mechanism
-* Provider Failover
-* Logging
-* Observability
-* Unit Testing
-* Integration Testing
 
 ---
 
