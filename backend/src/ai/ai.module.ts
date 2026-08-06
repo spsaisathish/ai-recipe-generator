@@ -9,6 +9,7 @@ import { AI_PROVIDER } from './constants/ai-provider.constants';
 import { AIProviderType } from 'src/common/enums/ai-provider-type.enum';
 import { ResponseParserService } from './response-parser.service';
 import { ResponseValidatorService } from './validator/response-validator.service';
+import { ProviderRouterService } from './provider-router/provider-router.service';
 
 const aiProviderFactory = {
   provide: AI_PROVIDER,
@@ -42,7 +43,8 @@ const aiProviderFactory = {
     ResponseValidatorService,
     ClaudeProvider,
     GeminiProvider,
-    aiProviderFactory
+    aiProviderFactory,
+    ProviderRouterService
   ],
   exports: [AiService],
 })
