@@ -6,6 +6,9 @@ import { CHEF_SYSTEM_PROMPT } from './prompts/system/chef.system';
 import { RECIPE_TEMPLATE } from './prompts/templates/recipe.template';
 import { replacePlaceholders } from './utils/prompt.util';
 import { RECIPE_OUTPUT_INSTRUCTIONS } from './prompts/outputs/recipe.output';
+import { AIRequest } from './interfaces/ai-request.interface';
+import { AIFeature } from './enums/ai-feature.enum';
+import { AIValidationException } from './exceptions/ai-validation.exception';
 
 /* Example Input
 const dto = {
@@ -69,5 +72,17 @@ export class PromptBuilderService {
       userPrompt,
       outputInstructions: RECIPE_OUTPUT_INSTRUCTIONS,
     };
+  }
+
+  build<T>(request: AIRequest<T>) {
+    switch (request.feature) {
+      case AIFeature.RECIPE:
+        return this.buildRecipePrompt(request.payload as GenerateRecipeDto);
+
+      default:
+        throw new AIValidationException(
+          `Unsupported feature ${request.feature}`,
+        );
+    }
   }
 }

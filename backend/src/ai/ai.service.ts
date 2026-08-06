@@ -1,11 +1,11 @@
-import { BadRequestException, Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { PromptBuilderService } from './prompt-builder.service';
 import { AI_PROVIDER } from './constants/ai-provider.constants';
 import type { AIProvider } from './interfaces/ai-provider.interface';
-import { GenerateRecipeDto } from 'src/recipe/dto/generate-recipe.dto';
 import { ResponseParserService } from './response-parser.service';
-import { RecipeResponseDto } from 'src/recipe/dto/recipe-response.dto';
 import { ResponseValidatorService } from './validator/response-validator.service';
+import { ClassConstructor } from 'class-transformer';
+import { AIRequest } from './interfaces/ai-request.interface';
 @Injectable()
 export class AiService {
   constructor(
@@ -17,22 +17,17 @@ export class AiService {
     private readonly responseValidator: ResponseValidatorService,
   ) {}
 
-  async generateRecipe(dto: GenerateRecipeDto): Promise<RecipeResponseDto> {
-    const prompt = this.promptBuilder.buildRecipePrompt(dto);
+  async generate<TRequest, TResponse extends object>(
+    request: AIRequest<TRequest>,
+    responseType: ClassConstructor<TResponse>,
+  ): Promise<TResponse> {
+    const prompt = this.promptBuilder.build(request);
 
     const llmResponse = await this.provider.send(prompt);
 
-    const parsedResponse =
-      this.responseParser.parse<RecipeResponseDto>(llmResponse);
+    const parsedResponse = this.responseParser.parse<TResponse>(llmResponse);
 
-    const messages = await this.responseValidator.validate(
-      RecipeResponseDto,
-      parsedResponse,
-    );
-
-    if (messages.length > 0) {
-      throw new BadRequestException(messages);
-    }
+    await this.responseValidator.validate(responseType, parsedResponse);
 
     return parsedResponse;
   }
