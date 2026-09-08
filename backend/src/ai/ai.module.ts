@@ -10,6 +10,9 @@ import { AIProviderType } from 'src/common/enums/ai-provider-type.enum';
 import { ResponseParserService } from './response-parser.service';
 import { ResponseValidatorService } from './validator/response-validator.service';
 import { ProviderRouterService } from './provider-router/provider-router.service';
+import { EMBEDDING_PROVIDER } from './embeddings/constants/embedding-provider.constants';
+import { EmbeddingService } from './embeddings/embedding.service';
+import { GeminiEmbeddingProvider } from './embeddings/providers/gemini-embedding.provider';
 
 const aiProviderFactory = {
   provide: AI_PROVIDER,
@@ -44,8 +47,13 @@ const aiProviderFactory = {
     ClaudeProvider,
     GeminiProvider,
     aiProviderFactory,
-    ProviderRouterService
+    ProviderRouterService,
+    EmbeddingService,
+    {
+      provide: EMBEDDING_PROVIDER,
+      useClass: GeminiEmbeddingProvider,
+    },
   ],
-  exports: [AiService],
+  exports: [AiService, EmbeddingService],
 })
 export class AiModule {}
