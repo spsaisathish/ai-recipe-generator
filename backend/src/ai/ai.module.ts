@@ -13,6 +13,15 @@ import { ProviderRouterService } from './provider-router/provider-router.service
 import { EMBEDDING_PROVIDER } from './embeddings/constants/embedding-provider.constants';
 import { EmbeddingService } from './embeddings/embedding.service';
 import { GeminiEmbeddingProvider } from './embeddings/providers/gemini-embedding.provider';
+import { PostgresEmbeddingRepository } from './embeddings/repositories/postgres-embedding.repository';
+import { EMBEDDING_REPOSITORY } from './embeddings/constants/embedding-repository.constants';
+import { RecipeEmbeddingService } from './embeddings/recipe-embedding.service';
+import { EmbeddingTestController } from './embeddings/embedding-test.controller';
+import { GeminiRerankerProvider } from './reranking/providers/gemini-reranker.provider';
+import { RERANKER } from './reranking/constants/reranker.constants';
+import { RerankerService } from './reranking/reranker.service';
+import { DocumentIngestionService } from './ingestion/document-ingestion.service';
+import { ChunkingService } from './chunking/chunking.service';
 
 const aiProviderFactory = {
   provide: AI_PROVIDER,
@@ -39,6 +48,7 @@ const aiProviderFactory = {
   inject: [ConfigService, ClaudeProvider, GeminiProvider],
 };
 @Module({
+  controllers: [EmbeddingTestController],
   providers: [
     AiService,
     PromptBuilderService,
@@ -53,7 +63,19 @@ const aiProviderFactory = {
       provide: EMBEDDING_PROVIDER,
       useClass: GeminiEmbeddingProvider,
     },
+    {
+      provide: EMBEDDING_REPOSITORY,
+      useClass: PostgresEmbeddingRepository,
+    },
+    RerankerService,
+    {
+      provide: RERANKER,
+      useClass: GeminiRerankerProvider,
+    },
+    ChunkingService,
+    DocumentIngestionService,
+    RecipeEmbeddingService,
   ],
-  exports: [AiService, EmbeddingService],
+  exports: [AiService, EmbeddingService, RecipeEmbeddingService, RerankerService],
 })
 export class AiModule {}
