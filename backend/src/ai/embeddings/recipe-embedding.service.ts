@@ -16,10 +16,15 @@ export class RecipeEmbeddingService {
   ) {}
 
   async create(content: string): Promise<void> {
-    const embedding = await this.embeddingService.embed(content);
+  const embedding = await this.embeddingService.embed(content);
 
-    await this.embeddingRepository.save(content, embedding);
-  }
+  await this.embeddingRepository.save(
+    1,
+    0,
+    content,
+    embedding,
+  );
+}
 
   async search(query: string, limit = 5) {
     const queryEmbedding = await this.embeddingService.embed(query);

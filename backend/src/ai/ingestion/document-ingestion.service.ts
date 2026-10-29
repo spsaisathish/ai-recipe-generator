@@ -19,9 +19,16 @@ export class DocumentIngestionService {
     const chunks = this.chunkingService.chunk(document, chunkSize, overlap);
 
     for (const chunk of chunks) {
-      const embedding = await this.embeddingService.embed(chunk.content);
+  const embedding = await this.embeddingService.embed(
+    chunk.content,
+  );
 
-      await this.embeddingRepository.save(chunk.content, embedding);
-    }
+  await this.embeddingRepository.save(
+    1,
+    chunk.index,
+    chunk.content,
+    embedding,
+  );
+}
   }
 }

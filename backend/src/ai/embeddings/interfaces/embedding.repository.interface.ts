@@ -1,18 +1,24 @@
 export interface EmbeddingRepository {
-  save(content: string, embedding: number[]): Promise<void>;
+  save(
+  documentId: number,
+  chunkIndex: number,
+  content: string,
+  embedding: number[],
+): Promise<void>;
 
   // Vector Search 
-  searchSimilar(
-    queryEmbedding: number[],
-    limit: number,
-  ): Promise<
-    {
-      id: number;
-      content: string;
-      similarity: number;
-    }[]
-  >;
-
+ searchSimilar(
+  queryEmbedding: number[],
+  limit: number,
+): Promise<
+  {
+    id: number;
+    documentId: number;
+    chunkIndex: number;
+    content: string;
+    similarity: number;
+  }[]
+>;
    // Keyword Search 
   searchKeyword(
     query: string,
@@ -27,14 +33,16 @@ export interface EmbeddingRepository {
 
    // Hybrid Search 
   searchHybrid(
-    query: string,
-    queryEmbedding: number[],
-    limit: number,
-  ): Promise<
-    {
-      id: number;
-      content: string;
-      score: number;
-    }[]
-  >;
+  query: string,
+  queryEmbedding: number[],
+  limit: number,
+): Promise<
+  {
+    id: number;
+    documentId: number;
+    chunkIndex: number;
+    content: string;
+    score: number;
+  }[]
+>;
 }
